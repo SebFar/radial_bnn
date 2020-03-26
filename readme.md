@@ -30,6 +30,7 @@ If you use this code, please cite us as:
     title = {Radial Bayesian Neural Networks: Beyond Discrete Support in Large-Scale Bayesian Deep Learning},
     journal = {Proceedings of the 23rtd International Conference on Artificial Intelligence and Statistics},
     year = {2020}
+}
 ```
 
 ## Acknowledgements
