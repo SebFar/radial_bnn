@@ -1,0 +1,66 @@
+{
+    "name": "toy_mnist",
+    "n_gpu": 1,
+    "seed": "random",
+    
+    "arch": {
+        "type": "SVI_Classification_MLP",
+        "args": {
+            "in_features": 784,
+            "hidden_features": [200, 200],
+            "out_features": 10,
+            "initial_rho": -4,
+            "initial_mu_std": "he",
+            "variational_distribution": "radial",
+            "prior": {
+                "name": "gaussian_prior",
+                "sigma": 1,
+                "mu": 0
+            }
+        }
+    },
+    "data_loader": {
+        "type": "MNISTDataLoader",
+        "args": {
+            "data_dir": "data/MNIST",
+            "batch_size": 64,
+            "num_workers": 4,
+            "percent_used_for_validation": 0.1
+        }
+    },
+    "optimizer": {
+        "type": "Adam",
+        "args":{
+            "lr": 10e-3,
+            "amsgrad": true
+        }
+    },
+    "loss": {
+        "type": "Elbo",
+        "args": {
+            "binary": false,
+            "regression": false
+        }
+    },
+    "metrics": [
+        "variational_accuracy"
+    ],
+    "trainer": {
+        "epochs": 50,
+        "save_dir": "projects/toy_mlp/saved/",
+        "save_freq": 4,
+        "metric_freq": 10,
+        "eval_freq": 4,
+        "verbosity": 2,
+        "monitor": "variational_accuracy",
+        "monitor_mode": "max",
+        "variational_train_samples": 4,
+        "variational_eval_samples": 32,
+        "pretrain_epochs": 1,
+        "early_stopping": 10
+    },
+    "visualization":{
+        "tensorboardX": true,
+        "log_dir": "projects/toy_mlp/runs"
+    }
+}

@@ -1,0 +1,70 @@
+{
+    "name": "full_vgg_configuration_for_retinopathy_dataset",
+    "purpose_of_experiment": "vgg16architecture",
+    "n_gpu": 1,
+    "seed": "random",
+    "data_type": "float32",
+    
+    "arch": {
+        "type": "SVI_VGG16_Retinopathy_Conv_Model",
+        "args": {
+            "in_channels": 3,
+            "conv_channel_base": 46,
+            "out_features": 1,
+            "initial_rho": -4,
+            "mu_std": "he",
+            "variational_distribution": "radial",
+            "prior": {
+                "name": "gaussian_pdf",
+                "sigma": 1,
+                "mu": 0
+            }
+        }
+    },
+    "data_loader": {
+        "type": "BDLRetinopathyDataLoader",
+        "args": {
+            "data_dir": "...",
+            "size": "realworld",
+            "batch_size": 16,
+            "shuffle": true,
+            "num_workers": 8,
+            "augment": true
+        }
+    },
+    "optimizer": {
+        "type": "Adam",
+        "args": {
+            "lr": 0.001,
+            "amsgrad": true
+        }
+    },
+    "loss": {
+        "type": "Elbo",
+        "args": {
+            "binary": true,
+            "regression": false
+        }
+    },
+    "metrics": [
+        "binary_variational_accuracy"
+    ],
+    "trainer": {
+        "epochs": 200,
+        "save_dir": "...",
+        "save_freq": 25,
+        "metric_freq": 50,
+        "eval_freq": 3,
+        "verbosity": 2,
+        "monitor": "val_variational_accuracy",
+        "monitor_mode": "max",
+        "variational_train_samples": 1,
+        "variational_eval_samples": 1,
+        "pretrain_epochs": 1,
+        "early_stopping": 50
+    },
+    "visualization":{
+        "tensorboardX": true,
+        "log_dir": "/bdlb/projects/retinopathy/runs"
+    }
+}
