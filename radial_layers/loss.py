@@ -37,6 +37,7 @@ class Elbo():
         # In the case of binary classification we make different assumption about the input dimension
         self.binary = binary
         self.regression = regression
+        self.writer = None
         return
 
     def set_model(self, model, config):
@@ -112,9 +113,10 @@ class Elbo():
             nll_tensor = torch.mean(nll_tensor, dim=1)
         nll_sum = torch.sum(nll_tensor)
 
-        self.writer.add_scalar('cross-entropy', cross_entropy_sum/self.num_batches)
-        self.writer.add_scalar('entropy', entropy_sum/self.num_batches)
-        self.writer.add_scalar('nll_loss', nll_sum)
+        if self.writer is not None:
+            self.writer.add_scalar('cross-entropy', cross_entropy_sum/self.num_batches)
+            self.writer.add_scalar('entropy', entropy_sum/self.num_batches)
+            self.writer.add_scalar('nll_loss', nll_sum)
         kl_divergence_estimated_over_batch = (cross_entropy_sum - entropy_sum) / self.num_batches
 
         return nll_sum / self.batch_size, kl_divergence_estimated_over_batch / self.batch_size

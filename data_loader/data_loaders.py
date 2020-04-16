@@ -28,7 +28,7 @@ class MNISTDataLoader(torch.utils.data.dataloader.DataLoader):
                  batch_size=16,
                  num_workers=1,
                  stage="training",
-                 percent_used_for_validation=0.9):
+                 percent_used_for_validation=0.1):
         assert stage in ["training", "validation", "test"]
         trsfm = transforms.Compose([
             transforms.ToTensor()

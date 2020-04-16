@@ -14,9 +14,14 @@ Further contributions are very welcome.
 This version of the code has been tested on pytorch version 1.4.0 with python 3.8.1 (though earlier iterations of the code worked in earlier versions of both). By default the code expects a cuda device, but can be modified to run on cpu.
 
 ## Example usage
-This code-base provides an example usage.
-`train.py` loads configuration files from `configs` and builds trainer, model, loss, and optimizer objects based on the configuration.
+This code-base provides two example usages.
+
+`simple_example.py` provides a minimal example for training MNIST using a Radial BNN multi-layer perceptron.
+It strips away advanced features and boilerplate.
+
+The more advanced example, `train.py` loads configuration files from `configs` and builds trainer, model, loss, and optimizer objects based on the configuration.
 For example, you can see `config_cnn_mnist.json` for an example that loads and trains a CNN on MNIST.
+This includes features like allowing you to pre-train the means only using NLL loss (important for MFVI and not needed for Radial BNNs).
 
 You can easily change the code to run standard mean-field variational inference with a multivariate Gaussian instead of Radial BNNs by changing the config file to set `arch["args"]["variational_distribution"] = "gaussian"` instead of `radial`.
 
